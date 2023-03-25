@@ -38,31 +38,40 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    //mainly adjusted code from the pickComponent Test to my existing scene https://jirkadelloro.github.io/FUDGE/Test/
     //ƒ replaced with f for easier usage
     var f = FudgeCore;
+    let viewport;
     document.addEventListener("interactiveViewportStarted", start);
+    f.Debug.info("Main Program Template running!");
     function start(_event) {
-        let viewport = _event.detail;
+        viewport = _event.detail;
         let root = viewport.getBranch();
-        let zoo = root.getChildrenByName("szene")[0];
+        let szene = root.getChildrenByName("szene")[0];
         let radii = new f.Node("Radii");
-        root.replaceChild(zoo, radii);
-        root.appendChild(zoo);
+        root.replaceChild(szene, radii);
+        root.appendChild(szene);
         root.addEventListener("mousemove", hit);
-        f.Debug.branch(root);
         viewport.canvas.addEventListener("mousemove", pick);
-        function pick(_event) {
-            document.querySelector("div").innerHTML = "";
-            viewport.draw();
-            viewport.dispatchPointerEvent(_event);
-            //f.Debug.info(_event);
-        }
-        function hit(_event) {
-            let node = _event.target;
-            let cmpPick = node.getComponent(f.ComponentPick);
-            f.Debug.info(cmpPick.node.name);
-            document.querySelector("div").innerHTML += cmpPick.pick + ":" + node.name + "<br/>";
-        }
+        f.Loop.addEventListener("loopFrame" /* f.EVENT.LOOP_FRAME */, update);
+        //f.Loop.start();
+    }
+    function pick(_event) {
+        document.querySelector("div").innerHTML = "";
+        viewport.draw();
+        viewport.dispatchPointerEvent(_event);
+    }
+    function hit(_event) {
+        let node = _event.target;
+        let cmpPick = node.getComponent(f.ComponentPick);
+        f.Debug.info(cmpPick.node.name);
+        document.querySelector("div").innerHTML += cmpPick.pick + ":" + node.name + "<br/>";
+    }
+    function update(_event) {
+        // ƒ.Physics.simulate();  // if physics is included and used
+        viewport.draw();
+        f.AudioManager.default.update();
+        f.Debug.info("update");
     }
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map
