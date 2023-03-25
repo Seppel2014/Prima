@@ -64,8 +64,7 @@ var Script;
     function hit(_event) {
         let node = _event.target;
         let cmpPick = node.getComponent(f.ComponentPick);
-        f.Debug.info(cmpPick.node.name);
-        document.querySelector("div").innerHTML += cmpPick.pick + ":" + node.name + "<br/>";
+        document.querySelector("div").innerHTML += cmpPick.node.name + "<br/>";
     }
     function update(_event) {
         // ƒ.Physics.simulate();  // if physics is included and used

@@ -17,9 +17,11 @@ canvas.fullscreen {
 
 div {
   position: absolute;
-  left: 10px;
-  top: 10px;
-  width: 10em;
-  height: 5em;
-  background-color: aliceblue;
+  left: 35vw;
+  top: 5vh;
+  width: 30vw;
+  height: 5vh;
+  font-size: 10vh;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
