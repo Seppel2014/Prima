@@ -14,10 +14,6 @@ namespace Script {
   function start(_event: CustomEvent): void {
     viewport = _event.detail;
     let root: f.Node = viewport.getBranch();
-    let szene: f.Node = root.getChildrenByName("szene")[0];
-    let radii: f.Node = new f.Node("Radii");
-    root.replaceChild(szene, radii);
-    root.appendChild(szene);
 
     root.addEventListener("mousemove", hit);
 

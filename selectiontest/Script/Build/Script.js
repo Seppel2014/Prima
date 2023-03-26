@@ -47,10 +47,6 @@ var Script;
     function start(_event) {
         viewport = _event.detail;
         let root = viewport.getBranch();
-        let szene = root.getChildrenByName("szene")[0];
-        let radii = new f.Node("Radii");
-        root.replaceChild(szene, radii);
-        root.appendChild(szene);
         root.addEventListener("mousemove", hit);
         viewport.canvas.addEventListener("mousemove", pick);
         f.Loop.addEventListener("loopFrame" /* f.EVENT.LOOP_FRAME */, update);
