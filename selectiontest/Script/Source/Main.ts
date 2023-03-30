@@ -21,6 +21,8 @@ namespace Script {
 
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     
+    let cmpCamera:f.ComponentCamera = viewport.getBranch().getComponent(f.ComponentCamera)
+    viewport.camera = cmpCamera;
     //f.Loop.start();
   }
 

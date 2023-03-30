@@ -38,37 +38,30 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
-    //mainly adjusted code from the pickComponent Test to my existing scene https://jirkadelloro.github.io/FUDGE/Test/
-    //ƒ replaced with f for easier usage
     var f = FudgeCore;
+    f.Debug.info("Main Program Template running!");
     let viewport;
     document.addEventListener("interactiveViewportStarted", start);
-    f.Debug.info("Main Program Template running!");
+    //document.addEventListener("keydown", handleKeyboard)
+    /*function handleKeyboard(_event: KeyboardEvent) {
+      if(_event.code == "ArrowRight" || _event.code == "KeyD")
+        
+  
+        //sonic.mtxLocal.translate()
+    }*/
+    //thursday implement fall aand jump, velocity forward and upward, reset after some time and strt fall
     function start(_event) {
         viewport = _event.detail;
-        let root = viewport.getBranch();
-        root.addEventListener("mousemove", hit);
-        viewport.canvas.addEventListener("mousemove", pick);
         f.Loop.addEventListener("loopFrame" /* f.EVENT.LOOP_FRAME */, update);
-        let cmpCamera = viewport.getBranch().getComponent(f.ComponentCamera);
-        viewport.camera = cmpCamera;
-        //f.Loop.start();
-    }
-    function pick(_event) {
-        document.querySelector("div").innerHTML = "";
-        viewport.draw();
-        viewport.dispatchPointerEvent(_event);
-    }
-    function hit(_event) {
-        let node = _event.target;
-        let cmpPick = node.getComponent(f.ComponentPick);
-        document.querySelector("div").innerHTML += cmpPick.node.name + "<br/>";
+        f.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
     }
     function update(_event) {
         // ƒ.Physics.simulate();  // if physics is included and used
+        if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_RIGHT, f.KEYBOARD_CODE.D])) {
+            f.Debug.info("right");
+        }
         viewport.draw();
         f.AudioManager.default.update();
-        f.Debug.info("update");
     }
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map
