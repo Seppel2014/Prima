@@ -29,6 +29,7 @@ namespace Script {
     // ƒ.Physics.simulate();  // if physics is included and used
     if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_RIGHT, f.KEYBOARD_CODE.D])) {
       f.Debug.info("right");
+      //sonic.mtxLocal.translate()
     }
 
     viewport.draw();

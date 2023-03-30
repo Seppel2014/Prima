@@ -83,6 +83,31 @@
               }
             }
           }
+        ],
+        "ComponentCamera": [
+          {
+            "ƒ.ComponentCamera": {
+              "backgroundColor": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+              },
+              "backgroundEnabled": true,
+              "projection": "central",
+              "fieldOfView": 45,
+              "direction": "diagonal",
+              "aspect": 1.7231759656652361,
+              "pivot": {
+                "translation": "[5, 2.499999523162842, 11]",
+                "rotation": "[0, 180, 0]",
+                "scaling": "[1, 1, 1]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
         ]
       },
       "children": [
@@ -550,10 +575,122 @@
               }
             ]
           }
+        },
+        {
+          "ƒ.Node": {
+            "name": "Character",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[1, 1, 0.009999999776482582]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ],
+              "ComponentMaterial": [],
+              "ComponentMesh": []
+            },
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "Sonic",
+                  "active": true,
+                  "components": {
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[-0.02199999988079071, 0.019999999552965164]",
+                            "rotation": 0,
+                            "scaling": "[0.03999999910593033, 0.040000006556510925]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "Material|2023-03-30T12:45:13.196Z|16822"
+                        }
+                      }
+                    ],
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshQuad|2023-03-23T10:40:36.202Z|90144",
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              }
+            ]
+          }
         }
       ],
       "idResource": "Graph|2023-03-23T09:26:39.019Z|97258",
       "type": "Graph"
+    }
+  },
+  "TextureImage|2023-03-30T12:43:50.060Z|81752": {
+    "ƒ.TextureImage": {
+      "url": "sprites\\sonic.gif",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2023-03-30T12:43:50.060Z|81752",
+        "name": "sprites\\sonic.gif",
+        "mipmap": "CRISP"
+      }
+    }
+  },
+  "AnimationSprite|2023-03-30T12:44:30.155Z|68471": {
+    "ƒ.AnimationSprite": {
+      "idResource": "AnimationSprite|2023-03-30T12:44:30.155Z|68471",
+      "idTexture": "TextureImage|2023-03-30T12:43:50.060Z|81752",
+      "frames": 25,
+      "wrapAfter": 5,
+      "start": "[0, 0]",
+      "size": "[80, 80]",
+      "next": "[80, 0]",
+      "wrap": "[0, 80]",
+      "Animation": {
+        "idResource": "AnimationSprite|2023-03-30T12:44:30.155Z|68471",
+        "name": "AnimationSprite",
+        "labels": {},
+        "events": {},
+        "framesPerSecond": 25,
+        "animationStructure": {}
+      }
+    }
+  },
+  "Material|2023-03-30T12:45:13.196Z|16822": {
+    "ƒ.Material": {
+      "name": "ShaderLitTextured",
+      "idResource": "Material|2023-03-30T12:45:13.196Z|16822",
+      "shader": "ShaderLitTextured",
+      "coat": {
+        "ƒ.CoatTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2023-03-30T12:43:50.060Z|81752"
+        }
+      }
     }
   }
 }
