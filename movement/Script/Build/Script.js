@@ -41,63 +41,100 @@ var Script;
     //mainly adjusted code from the pickComponent Test to my existing scene https://jirkadelloro.github.io/FUDGE/Test/
     //ƒ replaced with f for easier usage
     var f = FudgeCore;
-    let viewport;
-    let character;
+    let sonic;
     document.addEventListener("interactiveViewportStarted", start);
     f.Debug.info("Main Program Template running!");
     function start(_event) {
-        viewport = _event.detail;
-        character = viewport.getBranch().getChildrenByName("Character")[0];
-        f.Debug.info(character);
-        /*
-        let root: f.Node = viewport.getBranch();
-        root.addEventListener("mousemove", hit);
-        viewport.canvas.addEventListener("mousemove", pick);
-        */
+        Script.viewport = _event.detail;
+        sonic = new Script.Sonic(Script.viewport);
+        checkBoxes();
         f.Loop.addEventListener("loopFrame" /* f.EVENT.LOOP_FRAME */, update);
-        let cmpCamera = viewport.getBranch().getComponent(f.ComponentCamera);
-        viewport.camera = cmpCamera;
+        let charNode = Script.viewport.getBranch().getChildrenByName("Character")[0];
+        let cmpCamera = charNode.getChildrenByName("Sonic")[0].getComponent(f.ComponentCamera);
+        Script.viewport.camera = cmpCamera;
         f.Loop.start();
     }
-    function checkCollision(_event) {
-        let node = _event.target;
-        let cmpPick = node.getComponent(f.ComponentPick);
+    function checkBoxes() {
+        let floors = Script.viewport.getBranch().getChildrenByName("terrain")[0];
+        for (let floor of floors.getChildren()) {
+            let floorMesh = floor.getComponent(f.ComponentMesh);
+            let topLeft = floorMesh.mesh.vertices[0].position.x + floorMesh.mtxWorld.translation.x;
+            let topRight = floorMesh.mesh.vertices[3].position.x + floorMesh.mtxWorld.translation.x;
+            f.Debug.info(floorMesh);
+            f.Debug.info(topLeft + " topleft");
+            f.Debug.info(topRight + " topright");
+        }
     }
     function update(_event) {
-        if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_RIGHT, f.KEYBOARD_CODE.D])) {
-            character.mtxLocal.translateX(0.1);
-            f.Debug.info("right");
-        }
-        if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_LEFT, f.KEYBOARD_CODE.A])) {
-            character.mtxLocal.translateX(-0.1);
-            f.Debug.info("left");
-        }
-        if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_UP, f.KEYBOARD_CODE.W])) {
-            character.mtxLocal.translateY(0.1);
-            f.Debug.info("up");
-        }
-        if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_DOWN, f.KEYBOARD_CODE.S])) {
-            character.mtxLocal.translateY(-0.1);
-            f.Debug.info("down");
-        }
+        sonic.update();
         // ƒ.Physics.simulate();  // if physics is included and used
         //f.AudioManager.default.update();
-        viewport.draw();
+        Script.viewport.draw();
         f.Debug.info("update");
     }
 })(Script || (Script = {}));
-/*
-function pick(_event: PointerEvent): void {
-  document.querySelector("div").innerHTML = "";
-  viewport.draw();
-  viewport.dispatchPointerEvent(_event);
-}
+var Script;
+(function (Script) {
+    var f = FudgeCore;
+    class Sonic {
+        sonic = undefined;
+        position = undefined;
+        speed = new f.Vector3(0, 0, 0);
+        maxSpeed = 0.08;
+        //private isGrounded: boolean = false;
+        constructor(viewport) {
+            this.sonic = viewport.getBranch().getChildrenByName("Character")[0];
+            this.position = this.sonic.mtxLocal.translation;
+            f.Debug.info("Added SONIC at X: " + this.sonic.mtxWorld.translation.x + "    Y: " + this.sonic.mtxWorld.translation.y);
+        }
+        update() {
+            this.input();
+        }
+        movement() {
+            this.sonic.mtxLocal.translate(this.speed);
+        }
+        /*private checkCollision(): void {
 
-function hit(_event: PointerEvent): void {
-  let node: f.Node = (<f.Node>_event.target);
-  let cmpPick: f.ComponentPick = node.getComponent(f.ComponentPick);
-
-  document.querySelector("div").innerHTML += cmpPick.node.name + "<br/>";
-}
-*/ 
+            let floors: f.Node = viewport.getBranch().getChildrenByName("terrain")[0];
+            let pos: f.Vector3 = this.position;
+            
+            for (let floor of floors.getChildren()) {
+              let posFloor: f.Vector3 = floor.mtxWorld.translation;
+              
+              //Multiple cases for collision
+              
+              if (Math.abs(pos.x - posFloor.x) < 0.5) {
+                f.Debug.info(floor);
+                f.Debug.info(pos);
+                if (pos.y < posFloor.y + 0.01) {
+                  pos.y = posFloor.y + 0.01;
+                  this.position = pos;
+                  this.speed = new f.Vector3(0,0,0);
+                }
+              }
+            }
+          }
+          */
+        input() {
+            this.speed = new f.Vector3(0, 0, 0);
+            if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_RIGHT, f.KEYBOARD_CODE.D])) {
+                this.speed = new f.Vector3(this.maxSpeed, 0, 0);
+                //f.Debug.info("right");
+            }
+            if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_LEFT, f.KEYBOARD_CODE.A])) {
+                this.speed = new f.Vector3(-this.maxSpeed, 0, 0);
+                //f.Debug.info("left");
+            }
+            if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_UP, f.KEYBOARD_CODE.W])) {
+                this.speed = new f.Vector3(0, this.maxSpeed, 0);
+                //f.Debug.info("up");
+            }
+            /*if (!this.isGrounded) {
+                this.speed = new f.Vector3(this.speed.x, -this.maxSpeed, this.speed.z);
+            }*/
+            this.movement();
+        }
+    }
+    Script.Sonic = Sonic;
+})(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map

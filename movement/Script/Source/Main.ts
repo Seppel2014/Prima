@@ -5,9 +5,9 @@ namespace Script {
 
   import f = FudgeCore;
   
-  let viewport: f.Viewport;
+  export let viewport: f.Viewport;
 
-  let character: f.Node;
+  let sonic: Sonic;
 
   document.addEventListener("interactiveViewportStarted", <EventListener>start);
 
@@ -16,49 +16,22 @@ namespace Script {
 
   function start(_event: CustomEvent): void {
     viewport = _event.detail;
-    character = viewport.getBranch().getChildrenByName("Character")[0];
-    f.Debug.info(character);
 
-    /*
-    let root: f.Node = viewport.getBranch();
-    root.addEventListener("mousemove", hit);
-    viewport.canvas.addEventListener("mousemove", pick);
-    */
-
+    sonic = new Sonic(viewport);
+    
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     
-    let cmpCamera:f.ComponentCamera = viewport.getBranch().getComponent(f.ComponentCamera)
+    let charNode:f.Node = viewport.getBranch().getChildrenByName("Character")[0];
+    let cmpCamera = charNode.getChildrenByName("Sonic")[0].getComponent(f.ComponentCamera);
+
     viewport.camera = cmpCamera;
     f.Loop.start();
   }
 
-  function checkCollision(_event: PointerEvent): void {
-    let node: f.Node = (<f.Node>_event.target);
-    let cmpPick: f.ComponentPick = node.getComponent(f.ComponentPick);
-  }
-
   function update(_event: Event): void {
-    if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_RIGHT, f.KEYBOARD_CODE.D])) {
-      character.mtxLocal.translateX(0.1);
-      f.Debug.info("right");
-    }
+    sonic.update();
 
-    if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_LEFT, f.KEYBOARD_CODE.A])) {
-      character.mtxLocal.translateX(-0.1);
-      f.Debug.info("left");
-    }
-
-    if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_UP, f.KEYBOARD_CODE.W])) {
-      character.mtxLocal.translateY(0.1);
-      f.Debug.info("up");
-    }
-
-    if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_DOWN, f.KEYBOARD_CODE.S])) {
-      character.mtxLocal.translateY(-0.1);
-      f.Debug.info("down");
-    }
-
-
+    
     // ƒ.Physics.simulate();  // if physics is included and used
     //f.AudioManager.default.update();
     
@@ -66,17 +39,21 @@ namespace Script {
     f.Debug.info("update")
   }
 }
-    /*
-    function pick(_event: PointerEvent): void {
-      document.querySelector("div").innerHTML = "";
-      viewport.draw();
-      viewport.dispatchPointerEvent(_event);
-    }
 
-    function hit(_event: PointerEvent): void {
-      let node: f.Node = (<f.Node>_event.target);
-      let cmpPick: f.ComponentPick = node.getComponent(f.ComponentPick);
+/*function checkBoxes(): void {
+    let floors: f.Node = viewport.getBranch().getChildrenByName("terrain")[0];
+    
+    for (let floor of floors.getChildren()) {
+      
+      let floorMesh = floor.getComponent(f.ComponentMesh);
+      
 
-      document.querySelector("div").innerHTML += cmpPick.node.name + "<br/>";
+      let topLeft = floorMesh.mesh.vertices[0].position.x + floorMesh.mtxWorld.translation.x;
+      let topRight = floorMesh.mesh.vertices[3].position.x + floorMesh.mtxWorld.translation.x
+     
+      f.Debug.info(floorMesh);
+      f.Debug.info(topLeft + " topleft");
+      f.Debug.info(topRight + " topright");
+      
     }
-    */
+  }*/
