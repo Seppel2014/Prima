@@ -33,6 +33,8 @@ namespace Script {
     hud.style.width = "20%";
     hud.style.height = "20%";
 
+    console.log(viewport.getBranch().getChildrenByName("EndPost")[0].mtxLocal.translation);
+
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
   }
@@ -81,7 +83,7 @@ namespace Script {
     }
 
     sonic.mtxLocal.translation = pos;
-
+    checkEnd();
     checkTime();
     updateHUD();
 
@@ -89,25 +91,35 @@ namespace Script {
     // ƒ.AudioManager.default.update();
   }
 
+  function checkEnd() {
+    let pos: f.Vector3 = viewport.getBranch().getChildrenByName("EndPost")[0].mtxLocal.translation
+      if (sonic.mtxLocal.translation.x > pos.x - 0.5 && sonic.mtxLocal.translation.y > pos.y - 3 && sonic.mtxLocal.translation.y < pos.y + 3){
+      location.reload(); //show some kind of endscreen or next level
+    }
+  }
+
   function updateAnimation(_animation: string): void {
     let currentAnimation = sonic.getChildrenByName("SonicAnimation")[0].getComponent(f.ComponentAnimator);
-    let sonicTransform: f.ComponentTransform = sonic.getChildrenByName("SonicAnimation")[0].getComponent(f.ComponentTransform);
+    let transformMtx: f.Matrix4x4 = sonic.getChildrenByName("SonicAnimation")[0].getComponent(f.ComponentTransform).mtxLocal;
     let newAnimation: f.Animation;
 
     switch(_animation) {
       case "idle": {
         newAnimation = (f.Project.getResourcesByName("animation_idle")[0]) as f.Animation
-        sonicTransform.mtxLocal.rotateY(calcRotation(sonicTransform,0))
+        let newrotation = new f.Vector3(transformMtx.rotation.x, 0, transformMtx.rotation.z)
+        transformMtx.rotation = newrotation;
         break;
       }
       case "runningleft": {
         newAnimation = (f.Project.getResourcesByName("animation_running")[0]) as f.Animation
-        sonicTransform.mtxLocal.rotateY(calcRotation(sonicTransform,180))
+        let newrotation = new f.Vector3(transformMtx.rotation.x, 180, transformMtx.rotation.z)
+        transformMtx.rotation = newrotation;
         break;
       }
       case "runningright": {
         newAnimation = (f.Project.getResourcesByName("animation_running")[0]) as f.Animation
-        sonicTransform.mtxLocal.rotateY(calcRotation(sonicTransform,0))
+        let newrotation = new f.Vector3(transformMtx.rotation.x, 0, transformMtx.rotation.z)
+        transformMtx.rotation = newrotation;
         break;
       }
     }
@@ -115,31 +127,6 @@ namespace Script {
     if(currentAnimation.animation !== newAnimation) {
     currentAnimation.animation = newAnimation;
     }
-  }
-
-
-  //function for changing direction of animation (not mesh), right is 0 and left 180
-  function calcRotation(_transform:f.ComponentTransform,_targetRotation: number): number{
-    let currentRotation: number = Math.abs(_transform.mtxLocal.rotation.y);
-    let targetRotation: number = Math.abs(_targetRotation);
-    let value: number = 0;
-
-    if(currentRotation <90) {
-      currentRotation = 0;
-    }
-
-    if(currentRotation >90) {
-      currentRotation = 180;
-    }
-    
-    if (currentRotation == targetRotation) {
-      value = 0;
-    }
-
-    if (currentRotation !== targetRotation) {
-      value = 180;
-    }
-  return value;
   }
 
   function updateHUD(): void {
@@ -171,7 +158,7 @@ namespace Script {
     let tiles: f.Node[] = viewport.getBranch().getChildrenByName("Terrain")[0].getChildren()
     for (let tile of tiles) {
       let pos: f.Vector3 = f.Vector3.TRANSFORMATION(_posWorld, tile.mtxWorldInverse, true);
-      if (pos.y < 0.45 && pos.x > -0.5 && pos.x < 0.5){
+      if (pos.y < 0.45 && pos.x > -0.6 && pos.x < 0.6){
         if(pos.y < -1) {
           break;
         }
