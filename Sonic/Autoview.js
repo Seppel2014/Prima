@@ -70,5 +70,6 @@ async function startInteractiveViewport(_graphId)/* : void */ {
   viewport.draw();
 
   // dispatch event to signal startup done
+  
   canvas.dispatchEvent(new CustomEvent("interactiveViewportStarted", { bubbles: true, detail: viewport }));
 }

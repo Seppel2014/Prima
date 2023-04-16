@@ -14,3 +14,13 @@ canvas.fullscreen {
   width: 100vw; 
   height: 100vh; 
 }
+
+#hud {
+  position: absolute;
+  left: 1%;
+  top: 1%;
+  background-color: yellow;
+  width: 0%;
+  height: 0%;
+  text-align: center;
+}
