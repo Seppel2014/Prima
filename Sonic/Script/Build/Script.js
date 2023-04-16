@@ -95,7 +95,7 @@ var Script;
         let tileCollided = checkCollision(pos);
         if (tileCollided) {
             ySpeed = 0;
-            pos.y = tileCollided.mtxWorld.translation.y + 0.5;
+            pos.y = tileCollided.mtxWorld.translation.y + 0.45;
             isGrounded = true;
         }
         if (pos.y < -5) {
@@ -174,8 +174,14 @@ var Script;
         let tiles = viewport.getBranch().getChildrenByName("Terrain")[0].getChildren();
         for (let tile of tiles) {
             let pos = f.Vector3.TRANSFORMATION(_posWorld, tile.mtxWorldInverse, true);
-            if (pos.y < 0.5 && pos.x > -0.5 && pos.x < 0.5)
-                return tile;
+            if (pos.y < 0.45 && pos.x > -0.5 && pos.x < 0.5) {
+                if (pos.y < -1) {
+                    break;
+                }
+                else {
+                    return tile;
+                }
+            }
         }
         return null;
     }
