@@ -87,13 +87,12 @@ var Script;
             isGrounded = false;
         }
         else if (!isGrounded) {
-            updateAnimation("idle");
-            //create jumpanimation
+            updateAnimation("jumping");
         }
         ySpeed += gravity * timeFrame;
         let pos = sonic.mtxLocal.translation;
         pos.y += ySpeed * timeFrame;
-        let tileCollided = checkCollision(pos);
+        let tileCollided = checkCollisionWithBlock(pos);
         if (tileCollided) {
             ySpeed = 0;
             pos.y = tileCollided.mtxWorld.translation.y + 0.45;
@@ -108,12 +107,14 @@ var Script;
         checkEnd();
         checkTime();
         updateHUD();
+        checkCollisionWithGold(pos);
         viewport.draw();
         // ƒ.AudioManager.default.update();
     }
     function checkEnd() {
         let pos = viewport.getBranch().getChildrenByName("EndPost")[0].mtxLocal.translation;
         if (sonic.mtxLocal.translation.x > pos.x - 0.5 && sonic.mtxLocal.translation.y > pos.y - 3 && sonic.mtxLocal.translation.y < pos.y + 3) {
+            //big delay on github, direct reload offline, replace with endscreen or next level
             location.reload(); //show some kind of endscreen or next level
         }
     }
@@ -140,6 +141,12 @@ var Script;
                 transformMtx.rotation = newrotation;
                 break;
             }
+            case "jumping": {
+                newAnimation = (f.Project.getResourcesByName("animation_jumping")[0]);
+                let newrotation = new f.Vector3(transformMtx.rotation.x, 0, transformMtx.rotation.z);
+                transformMtx.rotation = newrotation;
+                break;
+            }
         }
         if (currentAnimation.animation !== newAnimation) {
             currentAnimation.animation = newAnimation;
@@ -162,7 +169,7 @@ var Script;
         let ms = Math.floor(timeTotal);
         time = [ms, seconds, minutes];
     }
-    function checkCollision(_posWorld) {
+    function checkCollisionWithBlock(_posWorld) {
         let tiles = viewport.getBranch().getChildrenByName("Terrain")[0].getChildren();
         for (let tile of tiles) {
             let pos = f.Vector3.TRANSFORMATION(_posWorld, tile.mtxWorldInverse, true);
@@ -172,6 +179,23 @@ var Script;
                 }
                 else {
                     return tile;
+                }
+            }
+        }
+        return null;
+    }
+    function checkCollisionWithGold(_posWorld) {
+        let golds = viewport.getBranch().getChildrenByName("Golds")[0].getChildren();
+        for (let gold of golds) {
+            let pos = f.Vector3.TRANSFORMATION(_posWorld, gold.mtxWorldInverse, true);
+            if (pos.y < 0.45 && pos.x > -0.6 && pos.x < 0.6) {
+                if (pos.y < -1) {
+                    break;
+                }
+                else {
+                    viewport.getBranch().getChildrenByName("Golds")[0].removeChild(gold);
+                    sonicGold++;
+                    return gold;
                 }
             }
         }

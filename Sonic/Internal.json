@@ -112,6 +112,38 @@
       }
     }
   },
+  "Material|2023-04-16T18:01:33.204Z|08134": {
+    "ƒ.Material": {
+      "name": "Red",
+      "idResource": "Material|2023-04-16T18:01:33.204Z|08134",
+      "shader": "ShaderLit",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[0.9176470588235294, 0.10196078431372549, 0.10196078431372549, 1]"
+        }
+      }
+    }
+  },
+  "AnimationSprite|2023-04-20T15:45:20.656Z|87887": {
+    "ƒ.AnimationSprite": {
+      "idResource": "AnimationSprite|2023-04-20T15:45:20.656Z|87887",
+      "idTexture": "TextureImage|2023-03-23T13:56:18.002Z|98392",
+      "frames": 2,
+      "wrapAfter": 3,
+      "start": "[-5, -288]",
+      "size": "[60, 60]",
+      "next": "[56, 0]",
+      "wrap": "[0, 110]",
+      "Animation": {
+        "idResource": "AnimationSprite|2023-04-20T15:45:20.656Z|87887",
+        "name": "animation_jumping",
+        "labels": {},
+        "events": {},
+        "framesPerSecond": 2,
+        "animationStructure": {}
+      }
+    }
+  },
   "Graph|2023-03-20T15:45:03.634Z|49818": {
     "ƒ.Graph": {
       "name": "Game",
@@ -890,7 +922,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[0, 0, 0]",
+                      "translation": "[0, 0, 0.019999999552965164]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
@@ -952,7 +984,7 @@
                           "Component": {
                             "active": true
                           },
-                          "idAnimation": "AnimationSprite|2023-04-15T23:17:51.744Z|87831",
+                          "idAnimation": "AnimationSprite|2023-04-20T15:45:20.656Z|87887",
                           "playmode": "loop",
                           "quantization": "discrete",
                           "scale": 1,
@@ -983,9 +1015,9 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0, 0]",
+                            "translation": "[-0.00968992244452238, -0.34244945645332336]",
                             "rotation": 0,
-                            "scaling": "[1, 1]"
+                            "scaling": "[0.11627907305955887, 0.07134363800287247]"
                           },
                           "Component": {
                             "active": true
@@ -1098,22 +1130,215 @@
             },
             "children": []
           }
+        },
+        {
+          "ƒ.Node": {
+            "name": "Golds",
+            "active": true,
+            "components": {},
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "gold",
+                  "active": true,
+                  "components": {
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshSprite|2023-03-23T13:55:55.301Z|85000",
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0.8828125, 0]",
+                            "rotation": 0,
+                            "scaling": "[0.1015625, 1.0416666269302368]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "Material|2023-04-20T18:53:27.992Z|18638"
+                        }
+                      }
+                    ],
+                    "ComponentAnimator": [
+                      {
+                        "ƒ.ComponentAnimator": {
+                          "Component": {
+                            "active": false
+                          },
+                          "idAnimation": "AnimationSprite|2023-04-20T18:44:55.576Z|54497",
+                          "playmode": "loop",
+                          "quantization": "discrete",
+                          "scale": 1,
+                          "scaleWithGameTime": true,
+                          "animateInEditor": false
+                        }
+                      }
+                    ],
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[4, 1, 0.019999999552965164]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "gold",
+                  "active": true,
+                  "components": {
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshSprite|2023-03-23T13:55:55.301Z|85000",
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0.8828125, 0]",
+                            "rotation": 0,
+                            "scaling": "[0.1015625, 1.0416666269302368]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "Material|2023-04-20T18:53:27.992Z|18638"
+                        }
+                      }
+                    ],
+                    "ComponentAnimator": [
+                      {
+                        "ƒ.ComponentAnimator": {
+                          "Component": {
+                            "active": true
+                          },
+                          "idAnimation": "AnimationSprite|2023-04-20T18:44:55.576Z|54497",
+                          "playmode": "loop",
+                          "quantization": "discrete",
+                          "scale": 1,
+                          "scaleWithGameTime": true,
+                          "animateInEditor": false
+                        }
+                      }
+                    ],
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[7, 2, 0.019999999552965164]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              }
+            ]
+          }
         }
       ],
       "idResource": "Graph|2023-03-20T15:45:03.634Z|49818",
       "type": "Graph"
     }
   },
-  "Material|2023-04-16T18:01:33.204Z|08134": {
+  "TextureImage|2023-04-20T18:44:30.275Z|56659": {
+    "ƒ.TextureImage": {
+      "url": "Image\\Gold.png",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2023-04-20T18:44:30.275Z|56659",
+        "name": "Image\\Gold.png",
+        "mipmap": "CRISP"
+      }
+    }
+  },
+  "AnimationSprite|2023-04-20T18:44:55.576Z|54497": {
+    "ƒ.AnimationSprite": {
+      "idResource": "AnimationSprite|2023-04-20T18:44:55.576Z|54497",
+      "idTexture": "TextureImage|2023-04-20T18:44:30.275Z|56659",
+      "frames": 2,
+      "wrapAfter": 3,
+      "start": "[33, 0]",
+      "size": "[13, 25]",
+      "next": "[80, 0]",
+      "wrap": "[0, 80]",
+      "Animation": {
+        "idResource": "AnimationSprite|2023-04-20T18:44:55.576Z|54497",
+        "name": "animation_gold",
+        "labels": {},
+        "events": {},
+        "framesPerSecond": 2,
+        "animationStructure": {}
+      }
+    }
+  },
+  "Material|2023-04-20T18:53:27.992Z|18638": {
     "ƒ.Material": {
-      "name": "Red",
-      "idResource": "Material|2023-04-16T18:01:33.204Z|08134",
-      "shader": "ShaderLit",
+      "name": "Gold",
+      "idResource": "Material|2023-04-20T18:53:27.992Z|18638",
+      "shader": "ShaderLitTextured",
       "coat": {
-        "ƒ.CoatColored": {
-          "color": "[0.9176470588235294, 0.10196078431372549, 0.10196078431372549, 1]"
+        "ƒ.CoatTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2023-04-20T18:44:30.275Z|56659"
         }
       }
+    }
+  },
+  "Graph|2023-04-20T19:18:35.379Z|99743": {
+    "ƒ.Graph": {
+      "name": "New Node",
+      "active": true,
+      "components": {},
+      "children": [],
+      "idResource": "Graph|2023-04-20T19:18:35.379Z|99743",
+      "type": "Graph"
     }
   }
 }
