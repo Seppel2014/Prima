@@ -10,7 +10,8 @@ namespace Script {
   let isGrounded: boolean = true;
   let sonicStartPoint: f.Vector3;
   let xSpeed: number = 5;
-
+  let audioListener: f.ComponentAudioListener;
+  let sounds: f.ComponentAudio[];
 
   //values for Hud
   let sonicDeaths: number = 0;
@@ -29,11 +30,35 @@ namespace Script {
     viewport.camera = cmpCamera;
 
     f.Time.game.set(0);
+
+    //hud
     let hud:HTMLDivElement = document.querySelector("div");
     hud.style.width = "20%";
     hud.style.height = "20%";
 
-    console.log(viewport.getBranch().getChildrenByName("EndPost")[0].mtxLocal.translation);
+    //play maintheme
+    sounds= viewport.getBranch().getComponents(f.ComponentAudio);
+    sounds[0].play(true);
+
+    audioListener = viewport.getBranch().getComponent(f.ComponentAudioListener);
+      f.AudioManager.default.listenWith(audioListener);
+      f.AudioManager.default.listenTo(viewport.getBranch());
+
+    let input = document.createElement("button");
+    input.type = "button";
+    input.innerHTML ="plus"
+    input.addEventListener("click", function(){
+      changeVolume(1.1)
+    })
+    document.querySelector("#hud").appendChild(input);
+
+    let input1 = document.createElement("button");
+    input1.type = "button";
+    input1.innerHTML ="minus"
+    input1.addEventListener("click", function(){
+      changeVolume(0.9)
+    })
+    document.querySelector("#hud").appendChild(input1);
 
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
@@ -57,6 +82,7 @@ namespace Script {
     if(isGrounded && f.Keyboard.isPressedOne([f.KEYBOARD_CODE.SPACE])) {
       ySpeed = 5;
       isGrounded = false;
+      sounds[2].play(true);
     }
 
     else if(!isGrounded) {
@@ -78,24 +104,34 @@ namespace Script {
       ySpeed = 0;
       pos = sonicStartPoint;
       sonicDeaths++;
+      sounds[3].play(true);
     }
 
     sonic.mtxLocal.translation = pos;
+    
+    
     checkEnd();
     checkTime();
     updateHUD();
     checkCollisionWithGold(pos);
 
     viewport.draw();
-    // ƒ.AudioManager.default.update();
+    f.AudioManager.default.update();
+  }
+
+  function changeVolume(_value: number) {
+    for(let sound of sounds) {
+      sound.volume *= _value;
+    }
   }
 
   function checkEnd() {
     let pos: f.Vector3 = viewport.getBranch().getChildrenByName("EndPost")[0].mtxLocal.translation
       if (sonic.mtxLocal.translation.x > pos.x - 0.5 && sonic.mtxLocal.translation.y > pos.y - 3 && sonic.mtxLocal.translation.y < pos.y + 3){
       
-      //big delay on github, direct reload offline, replace with endscreen or next level
-      location.reload(); //show some kind of endscreen or next level
+      sonic.mtxLocal.translation = sonicStartPoint;
+
+      sounds[4].play(true);
     }
   }
 
@@ -188,6 +224,7 @@ namespace Script {
         else {
           viewport.getBranch().getChildrenByName("Golds")[0].removeChild(gold);
           sonicGold++;
+          sounds[1].play(true);
           return gold;
         }
       }

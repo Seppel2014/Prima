@@ -59,11 +59,11 @@ async function startInteractiveViewport(_graphId)/* : void */ {
   canvas.addEventListener("mouseup", function () { document.exitPointerLock(); });
 
   // setup audio
-  // let cmpListener/* : ƒ.ComponentAudioListener */ = new ƒ.ComponentAudioListener();
+  //let cmpListener/* : ƒ.ComponentAudioListener */ = new ƒ.ComponentAudioListener();
   // cmpCamera.node.addComponent(cmpListener);
-  // ƒ.AudioManager.default.listenWith(cmpListener);
-  // ƒ.AudioManager.default.listenTo(graph);
-  // ƒ.Debug.log("Audio:", ƒ.AudioManager.default);
+  //ƒ.AudioManager.default.listenWith(cmpListener);
+  //ƒ.AudioManager.default.listenTo(graph);
+  //ƒ.Debug.log("Audio:", ƒ.AudioManager.default);
 
   // draw viewport once for immediate feedback
   // ƒ.Render.prepare(cameraOrbit);

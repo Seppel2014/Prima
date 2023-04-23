@@ -144,6 +144,82 @@
       }
     }
   },
+  "Material|2023-04-20T18:53:27.992Z|18638": {
+    "ƒ.Material": {
+      "name": "Gold",
+      "idResource": "Material|2023-04-20T18:53:27.992Z|18638",
+      "shader": "ShaderLitTextured",
+      "coat": {
+        "ƒ.CoatTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2023-04-20T18:44:30.275Z|56659"
+        }
+      }
+    }
+  },
+  "TextureImage|2023-04-20T18:44:30.275Z|56659": {
+    "ƒ.TextureImage": {
+      "url": "Image\\Gold.png",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2023-04-20T18:44:30.275Z|56659",
+        "name": "Image\\Gold.png",
+        "mipmap": "CRISP"
+      }
+    }
+  },
+  "AnimationSprite|2023-04-20T18:44:55.576Z|54497": {
+    "ƒ.AnimationSprite": {
+      "idResource": "AnimationSprite|2023-04-20T18:44:55.576Z|54497",
+      "idTexture": "TextureImage|2023-04-20T18:44:30.275Z|56659",
+      "frames": 2,
+      "wrapAfter": 3,
+      "start": "[33, 0]",
+      "size": "[13, 25]",
+      "next": "[80, 0]",
+      "wrap": "[0, 80]",
+      "Animation": {
+        "idResource": "AnimationSprite|2023-04-20T18:44:55.576Z|54497",
+        "name": "animation_gold",
+        "labels": {},
+        "events": {},
+        "framesPerSecond": 2,
+        "animationStructure": {}
+      }
+    }
+  },
+  "Audio|2023-04-23T11:53:08.271Z|97320": {
+    "ƒ.Audio": {
+      "url": "sounds\\title-theme.mp3",
+      "idResource": "Audio|2023-04-23T11:53:08.271Z|97320",
+      "name": "sounds\\title-theme.mp3",
+      "type": "Audio"
+    }
+  },
+  "Audio|2023-04-23T12:26:06.485Z|43122": {
+    "ƒ.Audio": {
+      "url": "sounds\\main_theme.mp3",
+      "idResource": "Audio|2023-04-23T12:26:06.485Z|43122",
+      "name": "sounds\\main_theme.mp3",
+      "type": "Audio"
+    }
+  },
+  "Audio|2023-04-23T13:20:10.122Z|03249": {
+    "ƒ.Audio": {
+      "url": "sounds\\ring-collect.mp3",
+      "idResource": "Audio|2023-04-23T13:20:10.122Z|03249",
+      "name": "sounds\\ring-collect.mp3",
+      "type": "Audio"
+    }
+  },
+  "Audio|2023-04-23T13:30:13.146Z|21566": {
+    "ƒ.Audio": {
+      "url": "sounds\\jump.mp3",
+      "idResource": "Audio|2023-04-23T13:30:13.146Z|21566",
+      "name": "sounds\\jump.mp3",
+      "type": "Audio"
+    }
+  },
   "Graph|2023-03-20T15:45:03.634Z|49818": {
     "ƒ.Graph": {
       "name": "Game",
@@ -171,6 +247,60 @@
               "Component": {
                 "active": true
               }
+            }
+          }
+        ],
+        "ComponentAudio": [
+          {
+            "ƒ.ComponentAudio": {
+              "active": true,
+              "idResource": "Audio|2023-04-23T12:26:06.485Z|43122",
+              "playing": false,
+              "loop": true,
+              "volume": 0.10000000149011612
+            }
+          },
+          {
+            "ƒ.ComponentAudio": {
+              "active": true,
+              "idResource": "Audio|2023-04-23T13:20:10.122Z|03249",
+              "playing": false,
+              "loop": false,
+              "volume": 0.8000000715255737
+            }
+          },
+          {
+            "ƒ.ComponentAudio": {
+              "active": true,
+              "idResource": "Audio|2023-04-23T13:30:13.146Z|21566",
+              "playing": false,
+              "loop": false,
+              "volume": 0.29999998211860657
+            }
+          },
+          {
+            "ƒ.ComponentAudio": {
+              "active": true,
+              "idResource": "Audio|2023-04-23T13:33:48.204Z|96671",
+              "playing": false,
+              "loop": false,
+              "volume": 1
+            }
+          },
+          {
+            "ƒ.ComponentAudio": {
+              "active": true,
+              "idResource": "Audio|2023-04-23T13:34:09.390Z|12198",
+              "playing": false,
+              "loop": false,
+              "volume": 1.100000023841858
+            }
+          }
+        ],
+        "ComponentAudioListener": [
+          {
+            "ƒ.ComponentAudioListener": {
+              "active": true
             }
           }
         ]
@@ -922,7 +1052,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[0, 0, 0.019999999552965164]",
+                      "translation": "[0, 0.4000000059604645, 0.019999999552965164]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
@@ -1023,6 +1153,33 @@
                             "active": true
                           },
                           "idMaterial": "Material|2023-03-23T13:57:10.704Z|80297"
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "SonicAudio",
+                  "active": true,
+                  "components": {
+                    "ComponentAudio": [
+                      {
+                        "ƒ.ComponentAudio": {
+                          "active": false,
+                          "idResource": "Audio|2023-04-23T11:53:08.271Z|97320",
+                          "playing": false,
+                          "loop": false,
+                          "volume": 0.19999994337558746
+                        }
+                      }
+                    ],
+                    "ComponentAudioListener": [
+                      {
+                        "ƒ.ComponentAudioListener": {
+                          "active": false
                         }
                       }
                     ]
@@ -1179,7 +1336,7 @@
                       {
                         "ƒ.ComponentAnimator": {
                           "Component": {
-                            "active": false
+                            "active": true
                           },
                           "idAnimation": "AnimationSprite|2023-04-20T18:44:55.576Z|54497",
                           "playmode": "loop",
@@ -1287,58 +1444,20 @@
       "type": "Graph"
     }
   },
-  "TextureImage|2023-04-20T18:44:30.275Z|56659": {
-    "ƒ.TextureImage": {
-      "url": "Image\\Gold.png",
-      "type": "TextureImage",
-      "Texture": {
-        "idResource": "TextureImage|2023-04-20T18:44:30.275Z|56659",
-        "name": "Image\\Gold.png",
-        "mipmap": "CRISP"
-      }
+  "Audio|2023-04-23T13:33:48.204Z|96671": {
+    "ƒ.Audio": {
+      "url": "sounds\\death.mp3",
+      "idResource": "Audio|2023-04-23T13:33:48.204Z|96671",
+      "name": "sounds\\death.mp3",
+      "type": "Audio"
     }
   },
-  "AnimationSprite|2023-04-20T18:44:55.576Z|54497": {
-    "ƒ.AnimationSprite": {
-      "idResource": "AnimationSprite|2023-04-20T18:44:55.576Z|54497",
-      "idTexture": "TextureImage|2023-04-20T18:44:30.275Z|56659",
-      "frames": 2,
-      "wrapAfter": 3,
-      "start": "[33, 0]",
-      "size": "[13, 25]",
-      "next": "[80, 0]",
-      "wrap": "[0, 80]",
-      "Animation": {
-        "idResource": "AnimationSprite|2023-04-20T18:44:55.576Z|54497",
-        "name": "animation_gold",
-        "labels": {},
-        "events": {},
-        "framesPerSecond": 2,
-        "animationStructure": {}
-      }
-    }
-  },
-  "Material|2023-04-20T18:53:27.992Z|18638": {
-    "ƒ.Material": {
-      "name": "Gold",
-      "idResource": "Material|2023-04-20T18:53:27.992Z|18638",
-      "shader": "ShaderLitTextured",
-      "coat": {
-        "ƒ.CoatTextured": {
-          "color": "[1, 1, 1, 1]",
-          "idTexture": "TextureImage|2023-04-20T18:44:30.275Z|56659"
-        }
-      }
-    }
-  },
-  "Graph|2023-04-20T19:18:35.379Z|99743": {
-    "ƒ.Graph": {
-      "name": "New Node",
-      "active": true,
-      "components": {},
-      "children": [],
-      "idResource": "Graph|2023-04-20T19:18:35.379Z|99743",
-      "type": "Graph"
+  "Audio|2023-04-23T13:34:09.390Z|12198": {
+    "ƒ.Audio": {
+      "url": "sounds\\finish.mp3",
+      "idResource": "Audio|2023-04-23T13:34:09.390Z|12198",
+      "name": "sounds\\finish.mp3",
+      "type": "Audio"
     }
   }
 }
