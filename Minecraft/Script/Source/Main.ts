@@ -14,24 +14,34 @@ namespace Script {
 
   async function start(_event: CustomEvent): Promise<void> {
     viewport = _event.detail;
-    /*let graph1: f.Graph = <f.Graph>f.Project.resources["Graph|2023-04-23T13:10:15.212Z|78039"];
-    let instance: f.GraphInstance = await f.Project.createGraphInstance(graph1);
-    console.log(instance.mtxLocal.translation);
-    */
 
+    for(let x = 0; x < 5; x++){
+      let blockX:Block = new Block(new f.Vector3(x,0,0), rndColor());
+      viewport.getBranch().addChild(blockX)
+      
+      for(let y = 0; y < 5; y++){
+        let blockY:Block = new Block(new f.Vector3(x,y,0), rndColor());
+        viewport.getBranch().addChild(blockY);
 
-    
-    /*let block:Block = new Block(f.Vector3.X(0),f.Color.CSS("red"));
-    viewport.getBranch().addChild(block)
-    console.log(block.mtxLocal);
-*/
-    for(let i = 0; i < 100; i++){
-      let block:Block = new Block(f.Vector3.X(i),f.Color.CSS("red"));
-      viewport.getBranch().addChild(block)
+        for(let z = 0; z < 5; z++){
+          let blockZ:Block = new Block(new f.Vector3(x,y,-z), rndColor());
+          viewport.getBranch().addChild(blockZ);
+        }
+      }
     }
 
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
+  }
+
+  function randomNumber(_max: number, _min: number): number {
+    let randomnumber: number = Math.random() * (_max-_min) + _min;
+    return randomnumber;
+  }
+
+  function rndColor(): f.Color {
+    let color: f.Color = f.Color.CSS("rgb("+randomNumber(255,1)+","+randomNumber(255,1)+","+randomNumber(255,1)+")");
+    return color;
   }
 
   function update(_event: Event): void {

@@ -12,6 +12,7 @@ var Script;
             cmpMaterial.clrPrimary = _color;
             this.addComponent(cmpMaterial);
             this.addComponent(new f.ComponentTransform(f.Matrix4x4.TRANSLATION(_position)));
+            this.getComponent(f.ComponentTransform).mtxLocal.scale(new f.Vector3(0.9, 0.9, 0.9));
             console.log();
         }
     }
@@ -64,20 +65,28 @@ var Script;
     document.addEventListener("interactiveViewportStarted", start);
     async function start(_event) {
         viewport = _event.detail;
-        /*let graph1: f.Graph = <f.Graph>f.Project.resources["Graph|2023-04-23T13:10:15.212Z|78039"];
-        let instance: f.GraphInstance = await f.Project.createGraphInstance(graph1);
-        console.log(instance.mtxLocal.translation);
-        */
-        /*let block:Block = new Block(f.Vector3.X(0),f.Color.CSS("red"));
-        viewport.getBranch().addChild(block)
-        console.log(block.mtxLocal);
-    */
-        for (let i = 0; i < 100; i++) {
-            let block = new Script.Block(f.Vector3.X(i), f.Color.CSS("red"));
-            viewport.getBranch().addChild(block);
+        for (let x = 0; x < 5; x++) {
+            let blockX = new Script.Block(new f.Vector3(x, 0, 0), rndColor());
+            viewport.getBranch().addChild(blockX);
+            for (let y = 0; y < 5; y++) {
+                let blockY = new Script.Block(new f.Vector3(x, y, 0), rndColor());
+                viewport.getBranch().addChild(blockY);
+                for (let z = 0; z < 5; z++) {
+                    let blockZ = new Script.Block(new f.Vector3(x, y, -z), rndColor());
+                    viewport.getBranch().addChild(blockZ);
+                }
+            }
         }
         f.Loop.addEventListener("loopFrame" /* f.EVENT.LOOP_FRAME */, update);
         f.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
+    }
+    function randomNumber(_max, _min) {
+        let randomnumber = Math.random() * (_max - _min) + _min;
+        return randomnumber;
+    }
+    function rndColor() {
+        let color = f.Color.CSS("rgb(" + randomNumber(255, 1) + "," + randomNumber(255, 1) + "," + randomNumber(255, 1) + ")");
+        return color;
     }
     function update(_event) {
         // ƒ.Physics.simulate();  // if physics is included and used

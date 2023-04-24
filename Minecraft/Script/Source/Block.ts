@@ -16,6 +16,7 @@ namespace Script {
 
 
             this.addComponent(new f.ComponentTransform(f.Matrix4x4.TRANSLATION(_position)));
+            this.getComponent(f.ComponentTransform).mtxLocal.scale(new f.Vector3(0.9,0.9,0.9));
             console.log()
         }
     }
