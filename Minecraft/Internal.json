@@ -20,6 +20,18 @@
       }
     }
   },
+  "Material|2023-04-26T20:45:31.913Z|25137": {
+    "ƒ.Material": {
+      "name": "ShaderLit",
+      "idResource": "Material|2023-04-26T20:45:31.913Z|25137",
+      "shader": "ShaderLit",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[1, 1, 1, 1]"
+        }
+      }
+    }
+  },
   "Graph|2023-04-20T13:20:15.371Z|85543": {
     "ƒ.Graph": {
       "name": "Game",
@@ -39,7 +51,7 @@
                 }
               },
               "Component": {
-                "active": true
+                "active": false
               }
             }
           },

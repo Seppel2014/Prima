@@ -3,7 +3,7 @@ declare namespace Script {
     class Block extends f.Node {
         static meshCube: f.MeshCube;
         static mtrCube: f.Material;
-        constructor(_position: f.Vector3, _color: f.Color);
+        constructor(_position: f.Vector3);
     }
 }
 declare namespace Script {

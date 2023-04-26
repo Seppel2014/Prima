@@ -1,9 +1,4 @@
 namespace Script {
-  
-  
-  //read about rays and picking 3d
-  
-  
   import f = FudgeCore;
   f.Debug.info("Main Program Template running!");
 
@@ -15,33 +10,40 @@ namespace Script {
   async function start(_event: CustomEvent): Promise<void> {
     viewport = _event.detail;
 
-    for(let x = 0; x < 5; x++){
-      let blockX:Block = new Block(new f.Vector3(x,0,0), rndColor());
+    for(let x = 0; x < 4; x++){
+      let blockX:Block = new Block(new f.Vector3(x,0,-10));
       viewport.getBranch().addChild(blockX)
       
-      for(let y = 0; y < 5; y++){
-        let blockY:Block = new Block(new f.Vector3(x,y,0), rndColor());
+      for(let y = 0; y < 4; y++){
+        let blockY:Block = new Block(new f.Vector3(x,y,-10));
         viewport.getBranch().addChild(blockY);
 
-        for(let z = 0; z < 5; z++){
-          let blockZ:Block = new Block(new f.Vector3(x,y,-z), rndColor());
+        for(let z = 12; z < 16; z++){
+          let blockZ:Block = new Block(new f.Vector3(x,y,-z));
           viewport.getBranch().addChild(blockZ);
         }
       }
     }
 
+    //@ts-ignore
+    viewport.canvas.addEventListener("mousemove", pick);
+    //@ts-ignore
+    viewport.getBranch().addEventListener("mousemove", hit);
+
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
   }
 
-  function randomNumber(_max: number, _min: number): number {
-    let randomnumber: number = Math.random() * (_max-_min) + _min;
-    return randomnumber;
+  function pick(_event:PointerEvent): void {
+    viewport.draw();
+    viewport.dispatchPointerEvent(_event);
   }
 
-  function rndColor(): f.Color {
-    let color: f.Color = f.Color.CSS("rgb("+randomNumber(255,1)+","+randomNumber(255,1)+","+randomNumber(255,1)+")");
-    return color;
+  function hit(_event:PointerEvent): void {
+    let node: f.Node = (<f.Node>_event.target);
+    let cmpPick: f.ComponentPick = node.getComponent(f.ComponentPick);
+
+    document.querySelector("div").innerHTML = cmpPick.node.getComponent(f.ComponentMaterial).clrPrimary + "<br/>";
   }
 
   function update(_event: Event): void {
