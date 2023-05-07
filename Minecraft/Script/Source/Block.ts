@@ -16,7 +16,7 @@ namespace Script {
 
 
             this.addComponent(new f.ComponentTransform(f.Matrix4x4.TRANSLATION(_position)));
-            this.getComponent(f.ComponentTransform).mtxLocal.scale(new f.Vector3(0.9,0.9,0.9));
+            this.getComponent(f.ComponentTransform).mtxLocal.scale(new f.Vector3(1,1,1));
 
             let cmpPick: f.ComponentPick = new f.ComponentPick
             cmpPick.pick = f.PICK.CAMERA;
@@ -34,5 +34,16 @@ namespace Script {
         let color: f.Color = f.Color.CSS("rgb("+randomNumber(255,1)+","+randomNumber(255,1)+","+randomNumber(255,1)+")");
         return color;
     }
+    //copied from Avel
+    export function pick(_event:PointerEvent): void {    
+        const nearestPick = getSortedPicksByCamera(_event)[0];
+        const block: f.Node = nearestPick?.node;
+        block.getParent().removeChild(block);
+      }
     
+    function getSortedPicksByCamera(_event: PointerEvent): f.Pick[] {
+        let picks: f.Pick[] = f.Picker.pickViewport(viewport, new f.Vector2(_event.clientX, _event.clientY));
+        picks.sort((_a, _b) => _a.zBuffer - _b.zBuffer);
+        return picks;
+      }
 }

@@ -12,7 +12,7 @@ var Script;
             cmpMaterial.clrPrimary = rndColor();
             this.addComponent(cmpMaterial);
             this.addComponent(new f.ComponentTransform(f.Matrix4x4.TRANSLATION(_position)));
-            this.getComponent(f.ComponentTransform).mtxLocal.scale(new f.Vector3(0.9, 0.9, 0.9));
+            this.getComponent(f.ComponentTransform).mtxLocal.scale(new f.Vector3(1, 1, 1));
             let cmpPick = new f.ComponentPick;
             cmpPick.pick = f.PICK.CAMERA;
             this.addComponent(cmpPick);
@@ -27,6 +27,50 @@ var Script;
         let color = f.Color.CSS("rgb(" + randomNumber(255, 1) + "," + randomNumber(255, 1) + "," + randomNumber(255, 1) + ")");
         return color;
     }
+    //copied from Avel
+    function pick(_event) {
+        const nearestPick = getSortedPicksByCamera(_event)[0];
+        const block = nearestPick?.node;
+        block.getParent().removeChild(block);
+    }
+    Script.pick = pick;
+    function getSortedPicksByCamera(_event) {
+        let picks = f.Picker.pickViewport(Script.viewport, new f.Vector2(_event.clientX, _event.clientY));
+        picks.sort((_a, _b) => _a.zBuffer - _b.zBuffer);
+        return picks;
+    }
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    let camera;
+    function adjustCamera() {
+        camera = Script.viewport.camera;
+        camera.mtxPivot.rotateY(45);
+        camera.mtxPivot.rotateX(45);
+        camera.mtxPivot.translateZ(-20);
+        camera.mtxPivot.translateY(2);
+    }
+    Script.adjustCamera = adjustCamera;
+    function handleKeyboard(_event) {
+        console.log(_event);
+        if (_event.key == "d") {
+            camera.mtxPivot.translateX(-0.3);
+            //camera.mtxPivot.translateY(-0.1);
+        }
+        else if (_event.key == "a") {
+            camera.mtxPivot.translateX(0.3);
+            //camera.mtxPivot.translateY(0.1);
+        }
+        else if (_event.key == "s") {
+            camera.mtxPivot.translateY(-0.3);
+            camera.mtxPivot.translateZ(-0.3);
+        }
+        else if (_event.key == "w") {
+            camera.mtxPivot.translateY(0.3);
+            camera.mtxPivot.translateZ(0.3);
+        }
+    }
+    Script.handleKeyboard = handleKeyboard;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -69,43 +113,35 @@ var Script;
 (function (Script) {
     var f = FudgeCore;
     f.Debug.info("Main Program Template running!");
-    let viewport;
     //@ts-ignore
     document.addEventListener("interactiveViewportStarted", start);
     async function start(_event) {
-        viewport = _event.detail;
+        Script.viewport = _event.detail;
         for (let x = 0; x < 4; x++) {
-            let blockX = new Script.Block(new f.Vector3(x, 0, -10));
-            viewport.getBranch().addChild(blockX);
+            let blockX = new Script.Block(new f.Vector3(x, 0, 0));
+            Script.viewport.getBranch().addChild(blockX);
             for (let y = 0; y < 4; y++) {
-                let blockY = new Script.Block(new f.Vector3(x, y, -10));
-                viewport.getBranch().addChild(blockY);
-                for (let z = 12; z < 16; z++) {
-                    let blockZ = new Script.Block(new f.Vector3(x, y, -z));
-                    viewport.getBranch().addChild(blockZ);
+                let blockY = new Script.Block(new f.Vector3(x, y, 0));
+                Script.viewport.getBranch().addChild(blockY);
+                for (let z = 0; z < 4; z++) {
+                    let blockZ = new Script.Block(new f.Vector3(x, y, z));
+                    Script.viewport.getBranch().addChild(blockZ);
                 }
             }
         }
         //@ts-ignore
-        viewport.canvas.addEventListener("mousemove", pick);
+        Script.viewport.canvas.addEventListener("pointerdown", Script.pick);
+        document.addEventListener("keydown", Script.handleKeyboard);
         //@ts-ignore
-        viewport.getBranch().addEventListener("mousemove", hit);
+        //viewport.getBranch().addEventListener("mousemove", hit);
+        Script.adjustCamera();
         f.Loop.addEventListener("loopFrame" /* f.EVENT.LOOP_FRAME */, update);
         f.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
     }
-    function pick(_event) {
-        viewport.draw();
-        viewport.dispatchPointerEvent(_event);
-    }
-    function hit(_event) {
-        let node = _event.target;
-        let cmpPick = node.getComponent(f.ComponentPick);
-        document.querySelector("div").innerHTML = cmpPick.node.getComponent(f.ComponentMaterial).clrPrimary + "<br/>";
-    }
     function update(_event) {
         // ƒ.Physics.simulate();  // if physics is included and used
-        viewport.draw();
-        f.AudioManager.default.update();
+        Script.viewport.draw();
+        //f.AudioManager.default.update();
     }
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map

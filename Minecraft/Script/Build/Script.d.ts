@@ -5,6 +5,11 @@ declare namespace Script {
         static mtrCube: f.Material;
         constructor(_position: f.Vector3);
     }
+    function pick(_event: PointerEvent): void;
+}
+declare namespace Script {
+    function adjustCamera(): void;
+    function handleKeyboard(_event: KeyboardEvent): void;
 }
 declare namespace Script {
     import ƒ = FudgeCore;
@@ -16,4 +21,6 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    import f = FudgeCore;
+    let viewport: f.Viewport;
 }
