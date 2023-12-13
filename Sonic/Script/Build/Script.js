@@ -46,7 +46,7 @@ var Script;
     const gravity = -9.81;
     let ySpeed = 0;
     let isGrounded = true;
-    let sonicStartPoint;
+    let sonicStartPoint = new f.Vector3(0, 0, 0);
     let xSpeed = 5;
     let audioListener;
     let sounds;
@@ -58,7 +58,6 @@ var Script;
     function start(_event) {
         viewport = _event.detail;
         sonic = viewport.getBranch().getChildrenByName("Sonic")[0];
-        sonicStartPoint = sonic.mtxLocal.translation;
         let cmpCamera = viewport.getBranch().getChildrenByName("Sonic")[0].getComponent(f.ComponentCamera);
         viewport.camera = cmpCamera;
         f.Time.game.set(0);
@@ -76,14 +75,14 @@ var Script;
         input.type = "button";
         input.innerHTML = "plus";
         input.addEventListener("click", function () {
-            changeVolume(1.1);
+            changeVolume(1.2);
         });
         document.querySelector("#hud").appendChild(input);
         let input1 = document.createElement("button");
         input1.type = "button";
         input1.innerHTML = "minus";
         input1.addEventListener("click", function () {
-            changeVolume(0.9);
+            changeVolume(0.8);
         });
         document.querySelector("#hud").appendChild(input1);
         f.Loop.addEventListener("loopFrame" /* f.EVENT.LOOP_FRAME */, update);

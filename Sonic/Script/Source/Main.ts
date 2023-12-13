@@ -8,7 +8,7 @@ namespace Script {
   const gravity: number = -9.81;
   let ySpeed: number = 0;
   let isGrounded: boolean = true;
-  let sonicStartPoint: f.Vector3;
+  let sonicStartPoint: f.Vector3 = new f.Vector3(0,0,0);
   let xSpeed: number = 5;
   let audioListener: f.ComponentAudioListener;
   let sounds: f.ComponentAudio[];
@@ -24,11 +24,12 @@ namespace Script {
     viewport = _event.detail;
 
     sonic = viewport.getBranch().getChildrenByName("Sonic")[0];
-    sonicStartPoint = sonic.mtxLocal.translation;
-    
+
+
+
     let cmpCamera: f.ComponentCamera = viewport.getBranch().getChildrenByName("Sonic")[0].getComponent(f.ComponentCamera);
     viewport.camera = cmpCamera;
-
+    
     f.Time.game.set(0);
 
     //hud
@@ -48,7 +49,7 @@ namespace Script {
     input.type = "button";
     input.innerHTML ="plus"
     input.addEventListener("click", function(){
-      changeVolume(1.1)
+      changeVolume(1.2)
     })
     document.querySelector("#hud").appendChild(input);
 
@@ -56,7 +57,7 @@ namespace Script {
     input1.type = "button";
     input1.innerHTML ="minus"
     input1.addEventListener("click", function(){
-      changeVolume(0.9)
+      changeVolume(0.8)
     })
     document.querySelector("#hud").appendChild(input1);
 
@@ -108,7 +109,6 @@ namespace Script {
     }
 
     sonic.mtxLocal.translation = pos;
-    
     
     checkEnd();
     checkTime();

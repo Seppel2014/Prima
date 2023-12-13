@@ -236,6 +236,18 @@
       "type": "Audio"
     }
   },
+  "Material|2023-12-07T22:42:49.488Z|79863": {
+    "ƒ.Material": {
+      "name": "ShaderLit",
+      "idResource": "Material|2023-12-07T22:42:49.488Z|79863",
+      "shader": "ShaderLit",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[1, 1, 1, 1]"
+        }
+      }
+    }
+  },
   "Graph|2023-03-20T15:45:03.634Z|49818": {
     "ƒ.Graph": {
       "name": "Game",
@@ -1240,7 +1252,7 @@
                     "Component": {
                       "active": true
                     },
-                    "idMaterial": "Material|2023-04-15T15:35:42.548Z|37213"
+                    "idMaterial": "Material|2023-12-07T22:42:49.488Z|79863"
                   }
                 }
               ]

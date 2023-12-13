@@ -47,23 +47,11 @@ var Script;
     function start(_event) {
         Script.viewport = _event.detail;
         sonic = new Script.Sonic(Script.viewport);
-        checkBoxes();
         f.Loop.addEventListener("loopFrame" /* f.EVENT.LOOP_FRAME */, update);
         let charNode = Script.viewport.getBranch().getChildrenByName("Character")[0];
         let cmpCamera = charNode.getChildrenByName("Sonic")[0].getComponent(f.ComponentCamera);
         Script.viewport.camera = cmpCamera;
         f.Loop.start();
-    }
-    function checkBoxes() {
-        let floors = Script.viewport.getBranch().getChildrenByName("terrain")[0];
-        for (let floor of floors.getChildren()) {
-            let floorMesh = floor.getComponent(f.ComponentMesh);
-            let topLeft = floorMesh.mesh.vertices[0].position.x + floorMesh.mtxWorld.translation.x;
-            let topRight = floorMesh.mesh.vertices[3].position.x + floorMesh.mtxWorld.translation.x;
-            f.Debug.info(floorMesh);
-            f.Debug.info(topLeft + " topleft");
-            f.Debug.info(topRight + " topright");
-        }
     }
     function update(_event) {
         sonic.update();
@@ -73,6 +61,23 @@ var Script;
         f.Debug.info("update");
     }
 })(Script || (Script = {}));
+/*function checkBoxes(): void {
+    let floors: f.Node = viewport.getBranch().getChildrenByName("terrain")[0];
+    
+    for (let floor of floors.getChildren()) {
+      
+      let floorMesh = floor.getComponent(f.ComponentMesh);
+      
+
+      let topLeft = floorMesh.mesh.vertices[0].position.x + floorMesh.mtxWorld.translation.x;
+      let topRight = floorMesh.mesh.vertices[3].position.x + floorMesh.mtxWorld.translation.x
+     
+      f.Debug.info(floorMesh);
+      f.Debug.info(topLeft + " topleft");
+      f.Debug.info(topRight + " topright");
+      
+    }
+  }*/ 
 var Script;
 (function (Script) {
     var f = FudgeCore;
