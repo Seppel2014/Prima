@@ -1,9 +1,22 @@
-# Prima - Abgabe
+# Prima - Abgabe Simon Daiber
+  * Title: Sonic vs Darkness
+  * Author: Simon Eugen Josef Daiber / MKB 7 / 265607
+  * Year and season: 2023/2024 Winter
+  * Curriculum and semester: MKB 7
+  * Course this development was created in: PRIMA 
+  * Docent: Prof. Dipl.-Ing. Jirka R. Dell'Oro-Friedl
 
-
-Playable Online Version
+# Playable Online Version
 https://seppel2014.github.io/Prima/Sonic/index.html
 
+# Source Code
+https://github.com/Seppel2014/Prima/tree/main/Sonic
+
+# Design Document
+
+# How to interact
+
+# Installation
 
 ## Checklist for Sonic vs. Darkness
 
