@@ -1,234 +1,169 @@
 namespace Script {
-  import f = FudgeCore;
-  f.Debug.info("Main Program Template running!");
+  export import f = FudgeCore;
+  export import fAid = FudgeAid;
 
-  //values for internal Use
-  let viewport: f.Viewport;
-  let sonic: f.Node;
-  const gravity: number = -9.81;
-  let ySpeed: number = 0;
-  let isGrounded: boolean = true;
-  let sonicStartPoint: f.Vector3 = new f.Vector3(0,0,0);
-  let xSpeed: number = 5;
+  //sonic
+  let sonic: Sonic;
+  
+  //general Variables
+  export let viewport: f.Viewport;
+  export let timeFrame: number;
+  export let ui: UI;
+  export let timer: f.Timer;
+
+  //audio variables
+  export let sounds: f.ComponentAudio[];
   let audioListener: f.ComponentAudioListener;
-  let sounds: f.ComponentAudio[];
 
-  //values for Hud
-  let sonicDeaths: number = 0;
-  let sonicGold: number = 0;
-  let time: number[];
+  //externalData
+  interface ExternalData {
+    [name: string]: number;
+  }
+  let config: ExternalData;
 
-  document.addEventListener("interactiveViewportStarted", <EventListener>start);
+  export let ammountLives: number;
+  export let maxTime: number;
+  export let trapsVisibility: number;
+  export let maxDarkness: number;
+  export let lightBoost: number;
+  export let trapsTriggered: number = 0;
 
-  function start(_event: CustomEvent): void {
+
+  let light: f.ComponentLight;
+
+  document.addEventListener("interactiveViewportStarted", <EventListener><unknown>start);
+
+  async function start(_event: CustomEvent): Promise<void> {
+    await getExternalData();
+
     viewport = _event.detail;
 
-    sonic = viewport.getBranch().getChildrenByName("Sonic")[0];
+    light = viewport.getBranch().getChildrenByName("AmbientLight")[0].getComponent(f.ComponentLight)
 
-
-
+    sonic = new Sonic();
     let cmpCamera: f.ComponentCamera = viewport.getBranch().getChildrenByName("Sonic")[0].getComponent(f.ComponentCamera);
     viewport.camera = cmpCamera;
+
+    timer = new f.Timer(new f.Time, 1000, 0, updateTimer);
+    ui = new UI(maxTime);
     
-    f.Time.game.set(0);
-
-    //hud
-    let hud:HTMLDivElement = document.querySelector("div");
-    hud.style.width = "20%";
-    hud.style.height = "20%";
-
-    //play maintheme
     sounds= viewport.getBranch().getComponents(f.ComponentAudio);
     sounds[0].play(true);
-
     audioListener = viewport.getBranch().getComponent(f.ComponentAudioListener);
-      f.AudioManager.default.listenWith(audioListener);
-      f.AudioManager.default.listenTo(viewport.getBranch());
+    f.AudioManager.default.listenWith(audioListener);
+    f.AudioManager.default.listenTo(viewport.getBranch());
 
-    let input = document.createElement("button");
-    input.type = "button";
-    input.innerHTML ="plus"
-    input.addEventListener("click", function(){
-      changeVolume(1.2)
-    })
-    document.querySelector("#hud").appendChild(input);
-
-    let input1 = document.createElement("button");
-    input1.type = "button";
-    input1.innerHTML ="minus"
-    input1.addEventListener("click", function(){
-      changeVolume(0.8)
-    })
-    document.querySelector("#hud").appendChild(input1);
+    createTraps();
+    createMachines();
 
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
   }
 
   function update(_event: Event): void {
-    let timeFrame: number = f.Loop.timeFrameGame / 1000; // time since last frame in seconds
-    // ƒ.Physics.simulate();  // if physics is included and used
-    if (f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_RIGHT, f.KEYBOARD_CODE.D])) {
-      sonic.mtxLocal.translateX(xSpeed * timeFrame);
-      updateAnimation("runningright");
-    }
+    timeFrame = f.Loop.timeFrameGame / 1000; // time since last frame in seconds
+    f.Physics.simulate();  // if physics is included and used
     
-    else if(f.Keyboard.isPressedOne([f.KEYBOARD_CODE.ARROW_LEFT, f.KEYBOARD_CODE.A])) {
-      sonic.mtxLocal.translateX(-xSpeed * timeFrame);
-      updateAnimation("runningleft")
-    }
-   
-    else {updateAnimation("idle")};
-
-    if(isGrounded && f.Keyboard.isPressedOne([f.KEYBOARD_CODE.SPACE])) {
-      ySpeed = 5;
-      isGrounded = false;
-      sounds[2].play(true);
-    }
-
-    else if(!isGrounded) {
-      updateAnimation("jumping")
-    }
-
-    ySpeed += gravity * timeFrame;
-    let pos: f.Vector3 = sonic.mtxLocal.translation;
-    pos.y += ySpeed * timeFrame;
-
-    let tileCollided: f.Node = checkCollisionWithBlock(pos);
-    if (tileCollided) {
-      ySpeed = 0;
-      pos.y = tileCollided.mtxWorld.translation.y + 0.45;
-      isGrounded = true;
-    }
-    
-    if (pos.y < -5) {
-      ySpeed = 0;
-      pos = sonicStartPoint;
-      sonicDeaths++;
-      sounds[3].play(true);
-    }
-
-    sonic.mtxLocal.translation = pos;
-    
-    checkEnd();
-    checkTime();
-    updateHUD();
-    checkCollisionWithGold(pos);
+    sonic.move();
+    changeLight(0);
 
     viewport.draw();
     f.AudioManager.default.update();
   }
 
-  function changeVolume(_value: number) {
-    for(let sound of sounds) {
-      sound.volume *= _value;
+  export function changeLight(_value:number):void {
+    let color:f.Color = light.light.color;
+    let reduced:number = color.r-0.001+_value
+    //console.log((1+_value-(f.Time.game.get()/1000)/maxTime))
+
+    if(reduced > maxDarkness) {
+      let reducedColor: f.Color = new f.Color(reduced,reduced,reduced);
+      light.light.color = reducedColor
     }
   }
 
-  function checkEnd() {
-    let pos: f.Vector3 = viewport.getBranch().getChildrenByName("EndPost")[0].mtxLocal.translation
-      if (sonic.mtxLocal.translation.x > pos.x - 0.5 && sonic.mtxLocal.translation.y > pos.y - 3 && sonic.mtxLocal.translation.y < pos.y + 3){
-      
-      sonic.mtxLocal.translation = sonicStartPoint;
+  async function getExternalData(): Promise<void> {
+    let response: Response = await fetch("Script/config.json");
+    config = await response.json();
 
-      sounds[4].play(true);
+    ammountLives = config["lives"];
+    maxTime = config["maxTime"];
+    trapsVisibility = config["trapsVisibility"]
+    maxDarkness = config["maxDarkness"]
+    lightBoost = config["lightboost"]
+  }
+
+  function createTraps():void {
+    let TrapsPlaceholders = viewport.getBranch().getChildrenByName("TrapPlaceholders")[0].getChildren();
+    for (let trapP of TrapsPlaceholders) {
+      new Trap(trapP.getComponent(f.ComponentMesh).mtxPivot.translation,trapP.name)
     }
   }
 
-  function updateAnimation(_animation: string): void {
-    let currentAnimation = sonic.getChildrenByName("SonicAnimation")[0].getComponent(f.ComponentAnimator);
-    let transformMtx: f.Matrix4x4 = sonic.getChildrenByName("SonicAnimation")[0].getComponent(f.ComponentTransform).mtxLocal;
-    let newAnimation: f.Animation;
-
-    switch(_animation) {
-      case "idle": {
-        newAnimation = (f.Project.getResourcesByName("animation_idle")[0]) as f.Animation
-        let newrotation = new f.Vector3(transformMtx.rotation.x, 0, transformMtx.rotation.z)
-        transformMtx.rotation = newrotation;
-        break;
-      }
-      case "runningleft": {
-        newAnimation = (f.Project.getResourcesByName("animation_running")[0]) as f.Animation
-        let newrotation = new f.Vector3(transformMtx.rotation.x, 180, transformMtx.rotation.z)
-        transformMtx.rotation = newrotation;
-        break;
-      }
-      case "runningright": {
-        newAnimation = (f.Project.getResourcesByName("animation_running")[0]) as f.Animation
-        let newrotation = new f.Vector3(transformMtx.rotation.x, 0, transformMtx.rotation.z)
-        transformMtx.rotation = newrotation;
-        break;
-      }
-      case "jumping": {
-        newAnimation = (f.Project.getResourcesByName("animation_jumping")[0]) as f.Animation
-        let newrotation = new f.Vector3(transformMtx.rotation.x, 0, transformMtx.rotation.z)
-        transformMtx.rotation = newrotation;
-        break;
-      }
-    }
-
-    if(currentAnimation.animation !== newAnimation) {
-    currentAnimation.animation = newAnimation;
+  function createMachines():void {
+    let StateMachines = viewport.getBranch().getChildrenByName("StateMachines")[0].getChildren();
+    for (let machine of StateMachines) {
+      new Light(machine.name)
     }
   }
 
-  function updateHUD(): void {
-    let hudTime = document.querySelector("#hudTime");
-    hudTime.innerHTML = "Time: " + time[2] + ":" + time[1] + ":" + time[0]
+  function updateTimer():void {
+    ui.time-=1;
+    if (ui.time < 0) {
+      EndGame("time");
+    }
+  }
+
+  export function EndGame(_endReason: string): void {
+    ui.ui.style.visibility = "hidden";
+    ui.time = 10000
     
-    let hudDeaths = document.querySelector("#hudDeaths");
-    hudDeaths.innerHTML = "Deaths: " + sonicDeaths.toString();
-  
-    let goldCollected = document.querySelector("#hudGold")
-    goldCollected.innerHTML = "Gold: " + sonicGold.toString();
+    let endDiv = document.getElementById("endDiv");
+    endDiv.style.display="flex";
+
+    switch(_endReason) {
+      case "time": {
+        console.log("ran out of time")
+        sounds[3].play(true);
+        endDiv.innerHTML = "YOU RAN OUT OF TIME<br>You collected "+ui.coins+" coins, <br> you triggered "+ui.traps+" traps <br> You had "+ui.lives+" lives left" 
+        break;
+      }
+      case "lives": {
+        console.log("ran out of lives")
+        endDiv.innerHTML = "YOU RAN OUT OF LIVES<br>You collected "+ui.coins+" coins <br> You triggered "+ui.traps+" traps" 
+        sounds[3].play(true);
+        break;
+      }
+      case "end": {
+        console.log("reached End")
+        endDiv.innerHTML = "YOU REACHED THE END<br>You collected "+ui.coins+" coins <br> You triggered "+ui.traps+" traps <br> You had "+ui.lives+" lives left" 
+        sounds[4].play(true);
+        break;
+      }
+    }
+    f.Loop.removeEventListener(f.EVENT.LOOP_FRAME, update);
   }
 
-  function checkTime(): void {
-    let timeTotal = f.Time.game.get();
+  export function createCompleteMeshNode(_name: string, _material: f.Material, _mesh: f.Mesh, _mass: number, _physicsType: f.BODY_TYPE, _group: f.COLLISION_GROUP = f.COLLISION_GROUP.DEFAULT, _colType: f.COLLIDER_TYPE = f.COLLIDER_TYPE.CUBE): f.Node {
+    let node: f.Node = new f.Node(_name);
+    let cmpMesh: f.ComponentMesh = new f.ComponentMesh(_mesh);
+    let cmpMaterial: f.ComponentMaterial = new f.ComponentMaterial(_material);
 
-    let minutes: number = Math.floor(timeTotal/60000);
-    timeTotal -= minutes*60000;
+    let cmpTransform: f.ComponentTransform = new f.ComponentTransform();
+
+    let cmpRigidbody: f.ComponentRigidbody = new f.ComponentRigidbody(_mass, _physicsType, _colType, _group);
+    cmpRigidbody.restitution = 0.2;
+    cmpRigidbody.friction = 0.8;
+    cmpRigidbody.dampTranslation = 0
     
-    let seconds: number = Math.floor(timeTotal/1000);
-    timeTotal -= seconds*1000;
+    node.addComponent(cmpMesh);
+    node.addComponent(cmpMaterial);
 
-    let ms: number = Math.floor(timeTotal)
+    cmpMaterial.mtxPivot.rotate(-90)
 
-    time = [ms, seconds, minutes];
-  }
+    node.addComponent(cmpTransform);
+    node.addComponent(cmpRigidbody);
 
-  function checkCollisionWithBlock(_posWorld: f.Vector3): f.Node {
-    let tiles: f.Node[] = viewport.getBranch().getChildrenByName("Terrain")[0].getChildren()
-    for (let tile of tiles) {
-      let pos: f.Vector3 = f.Vector3.TRANSFORMATION(_posWorld, tile.mtxWorldInverse, true);
-      if (pos.y < 0.45 && pos.x > -0.6 && pos.x < 0.6){
-        if(pos.y < -1) {
-          break;
-        }
-        else {
-          return tile;
-        }
-      }
-    }
-    return null;
-  }
-
-  function checkCollisionWithGold(_posWorld: f.Vector3): f.Node {
-    let golds: f.Node[] = viewport.getBranch().getChildrenByName("Golds")[0].getChildren()
-    for (let gold of golds) {
-      let pos: f.Vector3 = f.Vector3.TRANSFORMATION(_posWorld, gold.mtxWorldInverse, true);
-      if (pos.y < 0.45 && pos.x > -0.6 && pos.x < 0.6){
-        if(pos.y < -1) {
-          break;
-        }
-        else {
-          viewport.getBranch().getChildrenByName("Golds")[0].removeChild(gold);
-          sonicGold++;
-          sounds[1].play(true);
-          return gold;
-        }
-      }
-    }
-    return null;
+    return node;
   }
 }

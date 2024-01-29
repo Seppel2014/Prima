@@ -8,12 +8,11 @@
 <!--Editor settings of this project-->
 <meta type="settings" autoview="Graph|2023-03-20T15:45:03.634Z|49818" project="{'name':'Sonic','graphAutoView':'Graph|2023-03-20T15:45:03.634Z|49818'}" panels="[{'type':'PanelProject','state':{}},{'type':'PanelGraph','state':{'graph':'Graph|2023-03-20T15:45:03.634Z|49818'}},{'type':'PanelParticleSystem','state':{}}]" />
 
-<!--Activate the following line to include the FUDGE-version of Oimo-Physics. You may want to download a local copy to work offline and be independent from future changes!-->
-<!--<script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Physics/OimoPhysics.js"></script>-->
+<script type="text/javascript" src="Fudge/OimoPhysics.js"></script>
 
-<!--Load FUDGE. You may want to download local copies to work offline and be independent from future changes! Developers working on FUDGE itself may want to create symlinks-->
-<script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Core/Build/FudgeCore.js"></script>
-<script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Aid/Build/FudgeAid.js"></script>
+<script type="text/javascript" src="Fudge/FudgeCore.js"></script>
+<script type="text/javascript" src="Fudge/FudgeAid.js"></script>
+<script type="text/javascript" src="Fudge/FudgeUserInterface.js"></script>
 
 <!--Link internal resources. The editor only loads the first, but at runtime, multiple files can contribute-->
 <link type="resources" src="Internal.json" />
@@ -34,20 +33,50 @@
 <p>click to start</p>
 </dialog>
 
-<div id="hud">
-    <p id="hudTime">
-</p>
-    <p id="hudDeaths">
-</p>
-    <p id="hudGold">
-</p>
+<div class="center-div" id="endDiv">
 </div>
+<div id="UI">
+    Time <input id="timeLeft" key="time" type="number" disabled="" />
+    Coins <input id="coinsCollected" key="coins" type="number" disabled="" />
+    Lives <input id="lives" key="lives" type="number" disabled="" />
+    TrapsTriggered <input id="traps" key="traps" type="number" disabled="" />
 
-
+    <!--Volume <input id="volume" key="volume" type="number" step="0.1" value="1" min="0" max="2"/>-->
+</div>
 
 <!--Canvas for FUDGE to render to-->
 <canvas class="fullscreen">
 </canvas>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
