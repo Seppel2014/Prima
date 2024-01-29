@@ -13,6 +13,7 @@ https://seppel2014.github.io/Prima/Sonic/index.html
 https://github.com/Seppel2014/Prima/tree/main/Sonic
 
 # Design Document
+https://github.com/Seppel2014/Prima/blob/main/SonicVsDarknessDocumentation.pdf
 
 # How to interact
 
