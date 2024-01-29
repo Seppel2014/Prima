@@ -1,6 +1,6 @@
 # Prima - Abgabe
 
-[Playable Version]([https://seppel2014.github.io/Prima/Sonic/index.html])
+https://seppel2014.github.io/Prima/Sonic/index.html
 
 ## Checklist for Sonic vs. Darkness
 
