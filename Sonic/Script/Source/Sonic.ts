@@ -6,7 +6,7 @@ namespace Script {
     gravity: number = -9.81;
     ySpeed: number = 0;
     isGrounded: boolean = true;
-    sonicStartPoint: f.Vector3 = new f.Vector3(-2,0,0);
+    sonicStartPoint: f.Vector3 = new f.Vector3(-2,0.4,0);
     xSpeed: number = 5;
     
     constructor() {

@@ -227,7 +227,7 @@ var Script;
         gravity = -9.81;
         ySpeed = 0;
         isGrounded = true;
-        sonicStartPoint = new f.Vector3(-2, 0, 0);
+        sonicStartPoint = new f.Vector3(-2, 0.4, 0);
         xSpeed = 5;
         constructor() {
             super("Sonic");
