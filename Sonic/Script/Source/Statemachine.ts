@@ -45,7 +45,7 @@ namespace Script {
       public hndEvent = (_event: Event): void => {
         f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
       }
-       
+
       public update = (_event: Event): void => {
         this.act();
       }

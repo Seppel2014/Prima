@@ -28,6 +28,7 @@ declare namespace Script {
 declare namespace Script {
     export import f = FudgeCore;
     export import fAid = FudgeAid;
+    let sonic: Sonic;
     let viewport: f.Viewport;
     let timeFrame: number;
     let ui: UI;

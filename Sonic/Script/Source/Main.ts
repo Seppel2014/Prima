@@ -3,7 +3,7 @@ namespace Script {
   export import fAid = FudgeAid;
 
   //sonic
-  let sonic: Sonic;
+  export let sonic: Sonic;
   
   //general Variables
   export let viewport: f.Viewport;

@@ -1182,8 +1182,7 @@
                     }
                   }
                 }
-              ],
-              "ComponentLight": []
+              ]
             },
             "children": [
               {
@@ -2693,7 +2692,7 @@
                           "dampTranslation": 0.1,
                           "dampRotation": 0.1,
                           "effectGravity": 1,
-                          "typeBody": "STATIC",
+                          "typeBody": "KINEMATIC",
                           "typeCollider": "CUBE",
                           "isTrigger": true,
                           "id": 1,
@@ -2774,7 +2773,7 @@
                           "dampTranslation": 0.1,
                           "dampRotation": 0.1,
                           "effectGravity": 1,
-                          "typeBody": "STATIC",
+                          "typeBody": "KINEMATIC",
                           "typeCollider": "CUBE",
                           "isTrigger": true,
                           "id": 1,
@@ -2855,7 +2854,7 @@
                           "dampTranslation": 0.1,
                           "dampRotation": 0.1,
                           "effectGravity": 1,
-                          "typeBody": "STATIC",
+                          "typeBody": "KINEMATIC",
                           "typeCollider": "CUBE",
                           "isTrigger": true,
                           "id": 1,

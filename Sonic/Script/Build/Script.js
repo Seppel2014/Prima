@@ -102,8 +102,6 @@ var Script;
 (function (Script) {
     Script.f = FudgeCore;
     Script.fAid = FudgeAid;
-    //sonic
-    let sonic;
     let audioListener;
     let config;
     Script.trapsTriggered = 0;
@@ -113,7 +111,7 @@ var Script;
         await getExternalData();
         Script.viewport = _event.detail;
         light = Script.viewport.getBranch().getChildrenByName("AmbientLight")[0].getComponent(Script.f.ComponentLight);
-        sonic = new Script.Sonic();
+        Script.sonic = new Script.Sonic();
         let cmpCamera = Script.viewport.getBranch().getChildrenByName("Sonic")[0].getComponent(Script.f.ComponentCamera);
         Script.viewport.camera = cmpCamera;
         Script.timer = new Script.f.Timer(new Script.f.Time, 1000, 0, updateTimer);
@@ -131,7 +129,7 @@ var Script;
     function update(_event) {
         Script.timeFrame = Script.f.Loop.timeFrameGame / 1000; // time since last frame in seconds
         Script.f.Physics.simulate(); // if physics is included and used
-        sonic.move();
+        Script.sonic.move();
         changeLight(0);
         Script.viewport.draw();
         Script.f.AudioManager.default.update();
