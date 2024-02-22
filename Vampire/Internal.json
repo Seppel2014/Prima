@@ -317,6 +317,14 @@
       }
     }
   },
+  "Audio|2024-02-22T10:02:28.820Z|86205": {
+    "ƒ.Audio": {
+      "url": "sounds\\gold.wav",
+      "idResource": "Audio|2024-02-22T10:02:28.820Z|86205",
+      "name": "sounds\\gold.wav",
+      "type": "Audio"
+    }
+  },
   "Graph|2023-03-20T15:45:03.634Z|49818": {
     "ƒ.Graph": {
       "name": "Game",
@@ -2905,14 +2913,6 @@
       ],
       "idResource": "Graph|2023-03-20T15:45:03.634Z|49818",
       "type": "Graph"
-    }
-  },
-  "Audio|2024-02-22T10:02:28.820Z|86205": {
-    "ƒ.Audio": {
-      "url": "sounds\\gold.wav",
-      "idResource": "Audio|2024-02-22T10:02:28.820Z|86205",
-      "name": "sounds\\gold.wav",
-      "type": "Audio"
     }
   }
 }
