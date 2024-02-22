@@ -1,0 +1,8 @@
+{
+    "lives": 3,
+    "maxTime": 20,
+    "trapsVisibility": 0.9,
+    "maxDarkness": 0.05,
+    "lightboost": -0.25
+
+}
